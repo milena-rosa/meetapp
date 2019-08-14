@@ -16,7 +16,9 @@ afterEach(async () => {
   await Meetup.query().delete()
 })
 
-test('cannot list meetups if not authenticated', async ({ client }) => {
+test('cannot list meetups if the user is not authenticated', async ({
+  client
+}) => {
   const user = await Factory.model('App/Models/User').create()
 
   const { title, description, location, date } = await Factory.model(

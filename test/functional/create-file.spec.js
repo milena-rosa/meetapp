@@ -16,7 +16,9 @@ afterEach(async () => {
   await File.query().delete()
 })
 
-test('cannot create a file if not authenticated', async ({ client }) => {
+test('cannot create a file if the user is not authenticated', async ({
+  client
+}) => {
   const data = await Factory.model('App/Models/File').make()
 
   const response = await client

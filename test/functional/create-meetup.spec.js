@@ -43,7 +43,9 @@ test('can create a meetup if data is valid', async ({ client }) => {
   })
 })
 
-test('cannot create a meetup if not authenticated', async ({ client }) => {
+test('cannot create a meetup if the user is not authenticated', async ({
+  client
+}) => {
   const { title, description, location, date } = await Factory.model(
     'App/Models/Meetup'
   ).make()

@@ -43,9 +43,9 @@ Route.group(() => {
 
   // store: tested
   // index: tested
-  // show
-  // update
-  // delete
+  // show: tested
+  // update: tested
+  // delete: tested
   Route.resource('meetups', 'MeetupController')
     .apiOnly()
     .validator(new Map([[['meetups.store'], ['CreateMeetup']]]))

@@ -16,13 +16,13 @@ class MeetupController {
    * Show a paginated list (10 itens per page) of all meetups owned by the
    * logged user.
    * A date can also be passed by query params to filter meetups by date.
+   *
    * GET meetups
    */
   async index ({ request, auth }) {
     // get 'page' and 'date' params
     const { page, date } = request.get(['page', 'date'])
 
-    console.log(page, date)
     const meetups = await Meetup.query()
       .where(function () {
         // verify if date was passed
@@ -64,35 +64,119 @@ class MeetupController {
   }
 
   /**
-   * Display a single meetup.
+   * Display a single meetup with data of the organizer of the event and of
+   * the banner file.
+   *
    * GET meetups/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
-  async show ({ params }) {}
+  async show ({ params }) {
+    const meetup = await Meetup.findOrFail(params.id)
+
+    await meetup.load('user')
+    await meetup.load('file')
+    // await meetup.load('subscriptions')
+
+    return meetup
+  }
 
   /**
-   * Update meetup details.
-   * PUT or PATCH meetups/:id
+   * Update meetup details. The user that owns the meetup can modify data of
+   * events that have not passed yet.
    *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
+   * PUT meetups/:id
    */
-  async update ({ params, auth, request, response }) {}
+  async update ({ params, auth, request, response }) {
+    try {
+      const meetup = await Meetup.findOrFail(params.id)
+      const loggedUserId = auth.user.id
+
+      // verify if the meetup owner is the logged user.
+      if (meetup.user_id !== loggedUserId) {
+        return response.status(401).send({
+          error: {
+            message: 'You do not have permission to modify this meetup.'
+          }
+        })
+      }
+
+      const date = request.input('date')
+      // verify the date
+      if (isBefore(parseISO(date), new Date())) {
+        return response.status(400).send({
+          error: {
+            message:
+              'You cannot update the meetup with a date/time that has already passed.'
+          }
+        })
+      }
+
+      // verify if the meetup date has already passed.
+      if (meetup.toJSON().past) {
+        return response.status(401).send({
+          error: {
+            message: 'You cannot modify a meetup that has already passed.'
+          }
+        })
+      }
+
+      // if all good, update meetup
+      const data = request.only(['title', 'description', 'location', 'file_id'])
+      meetup.merge({ ...data, date })
+      await meetup.save()
+      return meetup
+    } catch (err) {
+      return response.status(400).send({
+        error: {
+          message: 'Something went wrong while updating the meetup.',
+          err: `${err.name}: ${err.message}`
+        }
+      })
+    }
+  }
 
   /**
-   * Delete a meetup with id.
+   * Delete a meetup with id. This method is used when the owner user wants to
+   * cancel the meetup.
+   *
+   * It is not possible to cancel meetups with past date/time.
+   *
    * DELETE meetups/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
-  async destroy ({ params, auth, response }) {}
+  async destroy ({ params, auth, response }) {
+    try {
+      const meetup = await Meetup.findOrFail(params.id)
+      const loggedUserId = await auth.user.id
+
+      // verify if the meetup owner is the logged user.
+      if (meetup.user_id !== loggedUserId) {
+        return response.status(401).send({
+          error: {
+            message: 'You do not have permission to cancel this meetup.'
+          }
+        })
+      }
+
+      // verify if the meetup date has already passed.
+      if (meetup.toJSON().past) {
+        return response.status(401).send({
+          error: {
+            message: 'You cannot cancel a meetup that has already passed.'
+          }
+        })
+      }
+
+      await meetup.delete()
+
+      return response.send({ message: 'ok' })
+    } catch (err) {
+      return response.status(err.status).send({
+        error: {
+          message: 'Something went wrong while cancelling the meetup.',
+          err: `${err.name}: ${err.message}`
+        }
+      })
+    }
+  }
 }
 
 module.exports = MeetupController

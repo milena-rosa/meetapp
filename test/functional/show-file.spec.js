@@ -19,10 +19,10 @@ afterEach(async () => {
 test('cannot show a file if id is not passed through the params', async ({
   client
 }) => {
-  const response = await client.get('files/1').end()
+  const response = await client.get('files').end()
   response.assertStatus(404)
   response.assertText(
-    'ModelNotFoundException: E_MISSING_DATABASE_ROW: Cannot find database row for File model\n> More details: https://err.sh/adonisjs/errors/E_MISSING_DATABASE_ROW'
+    'HttpException: E_ROUTE_NOT_FOUND: Route not found GET /files'
   )
 })
 

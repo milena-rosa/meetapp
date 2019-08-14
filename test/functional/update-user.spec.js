@@ -12,7 +12,9 @@ afterEach(async () => {
   await User.query().delete()
 })
 
-test('cannot update user data if not authenticated', async ({ client }) => {
+test('cannot update user data if the user is not authenticated', async ({
+  client
+}) => {
   const { name, email, password } = await Factory.model(
     'App/Models/User'
   ).create()
