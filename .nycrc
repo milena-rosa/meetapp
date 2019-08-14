@@ -1,0 +1,13 @@
+{
+  "nyc": {
+    "all": false,
+    "include": ["./app/**/*.js"],
+    "check-coverage": true,
+    "reporter": ["html"],
+    "reporter-dir": "./coverage",
+    "branches": 80,
+    "lines": 80,
+    "functions": 80,
+    "statements": 80
+  }
+}
