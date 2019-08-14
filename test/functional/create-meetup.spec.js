@@ -36,7 +36,6 @@ test('can create a meetup if data is valid', async ({ client }) => {
 
   response.assertStatus(201)
   response.assertJSONSubset({
-    user_id: user.id,
     title,
     description,
     location,

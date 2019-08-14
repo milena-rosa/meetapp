@@ -22,6 +22,7 @@ class MeetupController {
     // get 'page' and 'date' params
     const { page, date } = request.get(['page', 'date'])
 
+    console.log(page, date)
     const meetups = await Meetup.query()
       .where(function () {
         // verify if date was passed

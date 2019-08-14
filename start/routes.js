@@ -42,7 +42,7 @@ Route.group(() => {
   Route.post('files', 'FileController.store').validator('CreateImageFile')
 
   // store: tested
-  // index
+  // index: tested
   // show
   // update
   // delete
