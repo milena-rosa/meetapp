@@ -28,6 +28,10 @@ class User extends Model {
   meetups () {
     return this.hasMany('App/Models/Meetup')
   }
+
+  subscriptions () {
+    return this.hasMany('App/Models/Subscription')
+  }
 }
 
 module.exports = User

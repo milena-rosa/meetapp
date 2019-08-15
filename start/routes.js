@@ -49,5 +49,9 @@ Route.group(() => {
   Route.resource('meetups', 'MeetupController')
     .apiOnly()
     .validator(new Map([[['meetups.store'], ['CreateMeetup']]]))
-  // Route.post('meetups', 'MeetupController.store').validator('CreateMeetup')
+
+  // store: tested - falta mandar email para o organizador
+  // index
+  Route.post('subscriptions/:idMeetup', 'SubscriptionController.store')
+  Route.get('subscriptions', 'SubscriptionController.index')
 }).middleware(['auth'])

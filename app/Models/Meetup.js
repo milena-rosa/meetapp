@@ -27,9 +27,9 @@ class Meetup extends Model {
     return this.belongsTo('App/Models/User')
   }
 
-  // subscriptions () {
-  // return this.hasMany('App/Models/Subscription')
-  // }
+  subscriptions () {
+    return this.hasMany('App/Models/Subscription')
+  }
 
   file () {
     return this.belongsTo('App/Models/File')

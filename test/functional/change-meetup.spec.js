@@ -149,6 +149,7 @@ test('cannot update an inexistent meetup', async ({ client }) => {
 
 test('can update a meetup', async ({ client }) => {
   const user = await Factory.model('App/Models/User').create()
+  const files = await Factory.model('App/Models/File').createMany(2)
 
   const meetups = await Factory.model('App/Models/Meetup').makeMany(2)
   const meetup = await Meetup.create({
@@ -156,7 +157,8 @@ test('can update a meetup', async ({ client }) => {
     description: meetups[0].description,
     location: meetups[0].location,
     date: meetups[0].date,
-    user_id: user.id
+    user_id: user.id,
+    file_id: files[0].id
   })
 
   const response = await client
@@ -166,7 +168,8 @@ test('can update a meetup', async ({ client }) => {
       title: meetups[1].title,
       description: meetups[1].description,
       location: meetups[1].location,
-      date: meetups[1].date
+      date: meetups[1].date,
+      file_id: files[1].id
     })
     .end()
 
@@ -175,6 +178,7 @@ test('can update a meetup', async ({ client }) => {
     title: meetups[1].title,
     description: meetups[1].description,
     location: meetups[1].location,
-    date: meetups[1].date
+    date: meetups[1].date,
+    file_id: files[1].id
   })
 })

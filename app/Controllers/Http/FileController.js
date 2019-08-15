@@ -14,11 +14,6 @@ class FileController {
   /**
    * Show an existing file.
    * GET files/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
   async show ({ response, params }) {
     const file = await File.findOrFail(params.id)
@@ -29,10 +24,6 @@ class FileController {
   /**
    * Create/save a new file.
    * POST files
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
   async store ({ request, response }) {
     try {
