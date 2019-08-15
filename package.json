@@ -34,7 +34,8 @@
     "adonis-kue": "^5.0.1",
     "date-fns": "^2.0.0-beta.4",
     "pg": "^7.12.1",
-    "random-date-generator": "^1.0.2"
+    "random-date-generator": "^1.0.2",
+    "url-parse": "^1.4.7"
   },
   "devDependencies": {
     "coveralls": "^3.0.6",
