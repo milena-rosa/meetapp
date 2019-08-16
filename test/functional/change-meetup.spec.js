@@ -38,9 +38,12 @@ test('cannot update a meetup if the user is not authenticated', async ({
   const response = await client.put(`/meetups/${meetup.id}`).end()
 
   response.assertStatus(401)
-  response.assertText(
-    'InvalidJwtToken: E_INVALID_JWT_TOKEN: jwt must be provided'
-  )
+  response.assertJSONSubset({
+    error: {
+      message: 'E_INVALID_JWT_TOKEN: jwt must be provided',
+      name: 'InvalidJwtToken'
+    }
+  })
 })
 
 test('cannot update a meetup of other user', async ({ client }) => {

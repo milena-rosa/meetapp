@@ -27,6 +27,12 @@ test('cannot create a file if the user is not authenticated', async ({
     .end()
 
   response.assertStatus(401)
+  response.assertJSONSubset({
+    error: {
+      message: 'E_INVALID_JWT_TOKEN: jwt must be provided',
+      name: 'InvalidJwtToken'
+    }
+  })
 })
 
 test('cannot create a file if not an image or with a different extension of png or jpg', async ({

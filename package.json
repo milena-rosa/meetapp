@@ -2,7 +2,6 @@
   "name": "adonis-api-app",
   "version": "4.1.0",
   "adonis-version": "4.1.0",
-  "description": "Adonisjs boilerplate for API server with pre-configured JWT",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
@@ -13,8 +12,6 @@
     "adonisjs",
     "adonis-app"
   ],
-  "author": "",
-  "license": "UNLICENSED",
   "private": true,
   "dependencies": {
     "@adonisjs/ace": "^5.0.8",

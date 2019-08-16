@@ -25,9 +25,13 @@ test('cannot create a token without an e-mail', async ({ client }) => {
     .end()
 
   response.assertStatus(400)
-  response.assertText(
-    'Validation failed. Make sure you have filled all fields correctly'
-  )
+  response.assertJSONSubset([
+    {
+      message: 'The email is required.',
+      field: 'email',
+      validation: 'required'
+    }
+  ])
 
   Mail.restore()
 })
@@ -44,9 +48,13 @@ test('cannot create a token without a redirect_url', async ({ client }) => {
     .end()
 
   response.assertStatus(400)
-  response.assertText(
-    'Validation failed. Make sure you have filled all fields correctly'
-  )
+  response.assertJSONSubset([
+    {
+      message: 'The redirect_url is required.',
+      field: 'redirect_url',
+      validation: 'required'
+    }
+  ])
 
   Mail.restore()
 })

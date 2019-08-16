@@ -16,42 +16,30 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-// tested
 Route.post('users', 'UserController.store').validator('CreateUser')
 
-// tested
 Route.post('sessions', 'SessionController.store').validator('Session')
 
-// tested
 Route.post('passwords', 'ForgotPasswordController.store').validator(
   'ForgotPassword'
 )
-
-// tested
 Route.put('passwords', 'ForgotPasswordController.update').validator(
   'ResetPassword'
 )
 
-// tested
 Route.get('files/:id', 'FileController.show')
 
 Route.group(() => {
-  // tested
   Route.put('users', 'UserController.update').validator('UpdateUser')
-  // tested
-  Route.post('files', 'FileController.store').validator('CreateImageFile')
 
-  // store: tested
-  // index: tested
-  // show: tested
-  // update: tested
-  // delete: tested
+  Route.post('files', 'FileController.store')
+    .validator('CreateImageFile')
+    .middleware('auth')
+
   Route.resource('meetups', 'MeetupController')
     .apiOnly()
     .validator(new Map([[['meetups.store'], ['CreateMeetup']]]))
 
-  // store: tested - falta mandar email para o organizador
-  // index
   Route.post('subscriptions/:idMeetup', 'SubscriptionController.store')
   Route.get('subscriptions', 'SubscriptionController.index')
 }).middleware(['auth'])

@@ -23,9 +23,13 @@ test('cannot restart the password without a token', async ({ client }) => {
     .end()
 
   response.assertStatus(400)
-  response.assertText(
-    'Validation failed. Make sure you have filled all fields correctly'
-  )
+  response.assertJSONSubset([
+    {
+      message: 'The token is required.',
+      field: 'token',
+      validation: 'required'
+    }
+  ])
 })
 
 test('cannot restart the password with an expired token', async ({

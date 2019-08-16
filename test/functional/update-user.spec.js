@@ -29,9 +29,12 @@ test('cannot update user data if the user is not authenticated', async ({
     .end()
 
   response.assertStatus(401)
-  response.assertText(
-    'InvalidJwtToken: E_INVALID_JWT_TOKEN: jwt must be provided'
-  )
+  response.assertJSONSubset({
+    error: {
+      message: 'E_INVALID_JWT_TOKEN: jwt must be provided',
+      name: 'InvalidJwtToken'
+    }
+  })
 })
 
 test('cannot update a user with an e-mail already registered', async ({
@@ -152,7 +155,11 @@ test('cannot update user password if password and password_confirmation do not m
     .end()
 
   response.assertStatus(400)
-  response.assertText(
-    'Validation failed. Make sure you have filled all fields correctly'
-  )
+  response.assertJSONSubset([
+    {
+      message: 'The password confirmation does not match.',
+      field: 'password',
+      validation: 'confirmed'
+    }
+  ])
 })

@@ -1,6 +1,6 @@
 'use strict'
 
-const { test, trait, afterEach } = use('Test/Suite')('Create File')
+const { test, trait, afterEach } = use('Test/Suite')('Show File')
 
 const Helpers = use('Helpers')
 const Factory = use('Factory')
@@ -21,9 +21,12 @@ test('cannot show a file if id is not passed through the params', async ({
 }) => {
   const response = await client.get('files').end()
   response.assertStatus(404)
-  response.assertText(
-    'HttpException: E_ROUTE_NOT_FOUND: Route not found GET /files'
-  )
+  response.assertJSONSubset({
+    error: {
+      message: 'E_ROUTE_NOT_FOUND: Route not found GET /files',
+      name: 'HttpException'
+    }
+  })
 })
 
 test('can show a file', async ({ client }) => {

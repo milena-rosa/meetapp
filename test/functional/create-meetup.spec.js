@@ -58,6 +58,12 @@ test('cannot create a meetup if the user is not authenticated', async ({
     .end()
 
   response.assertStatus(401)
+  response.assertJSONSubset({
+    error: {
+      message: 'E_INVALID_JWT_TOKEN: jwt must be provided',
+      name: 'InvalidJwtToken'
+    }
+  })
 })
 
 test('cannot create a meetup with empty title', async ({ client }) => {

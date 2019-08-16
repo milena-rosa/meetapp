@@ -34,9 +34,12 @@ test('cannot list meetups if the user is not authenticated', async ({
   const response = await client.get('/meetups').end()
 
   response.assertStatus(401)
-  response.assertText(
-    'InvalidJwtToken: E_INVALID_JWT_TOKEN: jwt must be provided'
-  )
+  response.assertJSONSubset({
+    error: {
+      message: 'E_INVALID_JWT_TOKEN: jwt must be provided',
+      name: 'InvalidJwtToken'
+    }
+  })
 })
 
 test('can list meetups organized by the logged user', async ({ client }) => {

@@ -145,7 +145,7 @@ class MeetupController {
   async destroy ({ params, auth, response }) {
     try {
       const meetup = await Meetup.findOrFail(params.id)
-      const loggedUserId = await auth.user.id
+      const loggedUserId = auth.user.id
 
       // verify if the meetup owner is the logged user.
       if (meetup.user_id !== loggedUserId) {
