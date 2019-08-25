@@ -8,14 +8,19 @@ class User extends Model {
     super.boot()
 
     this.addHook('beforeSave', 'UserHook.hashPassword')
+    this.addHook('beforeSave', 'UserHook.sendResetPasswordMail')
   }
 
   static get visible () {
-    return ['id', 'name', 'email', 'token', 'password']
+    return ['id', 'name', 'email', 'token']
   }
 
   tokens () {
     return this.hasMany('App/Models/Token')
+  }
+
+  avatar () {
+    return this.belongsTo('App/Models/Avatar')
   }
 
   meetups () {

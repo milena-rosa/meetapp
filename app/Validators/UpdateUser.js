@@ -11,8 +11,7 @@ class UserUpdate {
     return {
       name: 'min:3',
       email: 'email|unique:users',
-      password: 'min:8|required_if:oldPassword|confirmed',
-      oldPassword: 'min:8'
+      password: 'min:8|required_if:oldPassword|confirmed'
     }
   }
 

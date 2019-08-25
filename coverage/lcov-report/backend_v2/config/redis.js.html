@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for backend_v2/start/app.js</title>
+    <title>Code coverage report for backend_v2/config/redis.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -16,13 +16,13 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">backend_v2/start</a> app.js
+      <a href="../../index.html">All files</a> / <a href="index.html">backend_v2/config</a> redis.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/6</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/6</span>
+        <span class='fraction'>2/2</span>
       </div>
     </div>
     <p class="quiet">
@@ -112,17 +112,7 @@
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
 <a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a>
-<a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L67'></a><a href='#L67'>67</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,6 +123,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,7 +149,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -175,7 +166,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -185,95 +175,75 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
 &nbsp;
 /*
 |--------------------------------------------------------------------------
-| Providers
+| Redis Configuaration
 |--------------------------------------------------------------------------
 |
-| Providers are building blocks for your Adonis app. Anytime you install
-| a new Adonis specific package, chances are you will register the
-| provider here.
+| Here we define the configuration for redis server. A single application
+| can make use of multiple redis connections using the redis provider.
 |
 */
-const providers = [
-  '@adonisjs/framework/providers/AppProvider',
-  '@adonisjs/auth/providers/AuthProvider',
-  '@adonisjs/bodyparser/providers/BodyParserProvider',
-  '@adonisjs/cors/providers/CorsProvider',
-  '@adonisjs/lucid/providers/LucidProvider',
-  '@adonisjs/validator/providers/ValidatorProvider',
-  '@adonisjs/antl/providers/AntlProvider',
-  '@adonisjs/mail/providers/MailProvider',
-  '@adonisjs/framework/providers/ViewProvider',
-  '@adonisjs/redis/providers/RedisProvider',
-  'adonis-kue/providers/KueProvider'
-]
 &nbsp;
-/*
-|--------------------------------------------------------------------------
-| Ace Providers
-|--------------------------------------------------------------------------
-|
-| Ace providers are required only when running ace commands. For example
-| Providers for migrations, tests etc.
-|
-*/
-const aceProviders = [
-  '@adonisjs/lucid/providers/MigrationsProvider',
-  '@adonisjs/vow/providers/VowProvider',
-  'adonis-kue/providers/CommandsProvider'
-]
+const Env = use('Env')
 &nbsp;
-/*
-|--------------------------------------------------------------------------
-| Aliases
-|--------------------------------------------------------------------------
-|
-| Aliases are short unique names for IoC container bindings. You are free
-| to create your own aliases.
-|
-| For example:
-|   { Route: 'Adonis/Src/Route' }
-|
-*/
-const aliases = {}
+module.exports = {
+  /*
+  |--------------------------------------------------------------------------
+  | connection
+  |--------------------------------------------------------------------------
+  |
+  | Redis connection to be used by default.
+  |
+  */
+  connection: Env.get('REDIS_CONNECTION', 'local'),
 &nbsp;
-/*
-|--------------------------------------------------------------------------
-| Commands
-|--------------------------------------------------------------------------
-|
-| Here you store ace commands for your package
-|
-*/
-const commands = []
+  /*
+  |--------------------------------------------------------------------------
+  | local connection config
+  |--------------------------------------------------------------------------
+  |
+  | Configuration for a named connection.
+  |
+  */
+  local: {
+    host: '127.0.0.1',
+    port: 6379,
+    password: null,
+    db: 0,
+    keyPrefix: ''
+  },
 &nbsp;
-/*
-|--------------------------------------------------------------------------
-| Jobs
-|--------------------------------------------------------------------------
-|
-| Here you store queue jobs
-|
-*/
-const jobs = ['App/Jobs/NewSubscriptionMail']
-&nbsp;
-module.exports = { providers, aceProviders, aliases, commands, jobs }
+  /*
+  |--------------------------------------------------------------------------
+  | cluster config
+  |--------------------------------------------------------------------------
+  |
+  | Below is the configuration for the redis cluster.
+  |
+  */
+  cluster: {
+    clusters: [
+      {
+        host: '127.0.0.1',
+        port: 6379,
+        password: null,
+        db: 0
+      },
+      {
+        host: '127.0.0.1',
+        port: 6380,
+        password: null,
+        db: 0
+      }
+    ]
+  }
+}
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->

@@ -15,6 +15,13 @@ class UserSchema extends Schema {
       table.string('password', 60).notNullable()
       table.string('token')
       table.timestamp('token_created_at')
+      table
+        .integer('avatar_id')
+        .unsigned()
+        .references('id')
+        .inTable('avatars')
+        .onUpdate('CASCADE')
+        .onDelete('SET NULL')
       table.timestamps()
     })
   }

@@ -56,8 +56,9 @@ class MeetupController {
    */
   async store ({ request, response, auth }) {
     const user = await auth.getUser()
+
     const meetup = await Meetup.create({
-      ...request.only(['title', 'description', 'location', 'date']),
+      ...request.only(['title', 'description', 'location', 'date', 'file_id']),
       user_id: user.id
     })
     return response.created(meetup)
@@ -121,6 +122,7 @@ class MeetupController {
 
       // if all good, update meetup
       const data = request.only(['title', 'description', 'location', 'file_id'])
+
       meetup.merge({ ...data, date })
       await meetup.save()
       return meetup

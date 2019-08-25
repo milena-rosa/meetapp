@@ -28,18 +28,20 @@ Route.put('passwords', 'ForgotPasswordController.update').validator(
 )
 
 Route.get('files/:id', 'FileController.show')
+Route.get('avatars/:id', 'AvatarController.show')
 
 Route.group(() => {
-  Route.put('users', 'UserController.update').validator('UpdateUser')
+  Route.put('users', 'UserController.update') // .validator('UpdateUser')
 
-  Route.post('files', 'FileController.store')
-    .validator('CreateImageFile')
-    .middleware('auth')
+  Route.post('files', 'FileController.store').validator('CreateImageFile')
+
+  Route.post('avatars', 'AvatarController.store').validator('CreateImageFile')
 
   Route.resource('meetups', 'MeetupController')
     .apiOnly()
     .validator(new Map([[['meetups.store'], ['CreateMeetup']]]))
 
+  Route.get('subscriberMeetups', 'SubscriberMeetupController.index')
   Route.post('subscriptions/:idMeetup', 'SubscriptionController.store')
   Route.get('subscriptions', 'SubscriptionController.index')
 }).middleware(['auth'])

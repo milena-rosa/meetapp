@@ -82,12 +82,9 @@ test('cannot start a session with an inexistent email', async ({ client }) => {
     .end()
 
   response.assertStatus(401)
-  response.assertJSONSubset({
-    error: {
-      message: `E_USER_NOT_FOUND: Cannot find user with email as ${email}`,
-      name: 'UserNotFoundException'
-    }
-  })
+  response.assertText(
+    `E_USER_NOT_FOUND: Cannot find user with email as ${email}`
+  )
 })
 
 test('cannot start a session with the wrong password', async ({ client }) => {
@@ -102,10 +99,5 @@ test('cannot start a session with the wrong password', async ({ client }) => {
     .end()
 
   response.assertStatus(401)
-  response.assertJSONSubset({
-    error: {
-      message: `E_PASSWORD_MISMATCH: Cannot verify user password`,
-      name: 'PasswordMisMatchException'
-    }
-  })
+  response.assertText(`E_PASSWORD_MISMATCH: Cannot verify user password`)
 })

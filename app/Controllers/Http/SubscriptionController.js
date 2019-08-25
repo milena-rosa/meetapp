@@ -107,8 +107,6 @@ class SubscriptionController {
         meetup_id: meetup.id
       })
 
-      // TODO: enviar e-mail para o owner da meetup
-
       return subscription
     } catch (err) {
       return response.status(400).send({
