@@ -72,8 +72,7 @@ test('can show a meetup', async ({ client }) => {
     user: {
       id: user.id,
       name: user.name,
-      email: user.email,
-      password: user.password
+      email: user.email
     },
     file: {
       file: file.file,

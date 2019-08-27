@@ -31,7 +31,7 @@ Route.get('files/:id', 'FileController.show')
 Route.get('avatars/:id', 'AvatarController.show')
 
 Route.group(() => {
-  Route.put('users', 'UserController.update') // .validator('UpdateUser')
+  Route.put('users', 'UserController.update').validator('UpdateUser')
 
   Route.post('files', 'FileController.store').validator('CreateImageFile')
 
@@ -44,4 +44,5 @@ Route.group(() => {
   Route.get('subscriberMeetups', 'SubscriberMeetupController.index')
   Route.post('subscriptions/:idMeetup', 'SubscriptionController.store')
   Route.get('subscriptions', 'SubscriptionController.index')
+  Route.delete('subscriptions/:id', 'SubscriptionController.destroy')
 }).middleware(['auth'])

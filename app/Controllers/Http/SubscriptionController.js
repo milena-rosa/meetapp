@@ -8,7 +8,6 @@ const { areIntervalsOverlapping, addHours, subHours } = require('date-fns')
 
 const Subscription = use('App/Models/Subscription')
 const Meetup = use('App/Models/Meetup')
-const User = use('App/Models/User')
 
 /**
  * Resourceful controller for interacting with subscriptions
@@ -20,17 +19,19 @@ class SubscriptionController {
    *
    * GET subscriptions
    */
-  async index ({ request, auth }) {
-    const { page = 1 } = request.get(['page'])
-
-    const userMeetups = await User.query()
-      .where('id', auth.user.id)
-      .with('subscriptions.meetup', builder => {
-        builder.where('date', '>', new Date()).orderBy('date')
+  async index ({ auth }) {
+    const userSubscriptions = await Subscription.query()
+      .where('user_id', auth.user.id)
+      .with('meetup', builder => {
+        builder
+          .where('date', '>', new Date())
+          .orderBy('date')
+          .with('user')
+          .with('file')
       })
-      .paginate(page, 10)
+      .fetch()
 
-    return userMeetups
+    return userSubscriptions
   }
 
   /**
@@ -112,6 +113,41 @@ class SubscriptionController {
       return response.status(400).send({
         error: {
           message: 'Something went wrong while subscribing to the meetup.',
+          err: `${err.name}: ${err.message}`
+        }
+      })
+    }
+  }
+
+  /**
+   * Delete a meetup with id. This method is used when the owner user wants to
+   * cancel the meetup.
+   *
+   * It is not possible to cancel meetups with past date/time.
+   *
+   * DELETE meetups/:id
+   */
+  async destroy ({ params, auth, response }) {
+    try {
+      const subscription = await Subscription.findOrFail(params.id)
+      const loggedUserId = auth.user.id
+
+      // verify if the meetup owner is the logged user.
+      if (subscription.user_id !== loggedUserId) {
+        return response.status(401).send({
+          error: {
+            message: 'You do not have permission to cancel this subscription.'
+          }
+        })
+      }
+
+      await subscription.delete()
+
+      return response.send({ message: 'ok' })
+    } catch (err) {
+      return response.status(err.status).send({
+        error: {
+          message: 'Something went wrong while cancelling the subscription.',
           err: `${err.name}: ${err.message}`
         }
       })

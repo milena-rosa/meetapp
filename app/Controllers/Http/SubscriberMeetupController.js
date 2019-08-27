@@ -2,7 +2,9 @@
 
 const { parseISO, startOfDay, endOfDay } = require('date-fns')
 
+const Database = use('Database')
 const Meetup = use('App/Models/Meetup')
+const Subscription = use('App/Models/Subscription')
 
 class SubscriberMeetupController {
   /**
@@ -10,15 +12,15 @@ class SubscriberMeetupController {
    * user can subscribe to.
    * A date can also be passed by query params to filter meetups by date.
    *
-   * GET meetups
+   * GET subscriberMeetups
    */
   async index ({ request, auth }) {
     // get 'page' and 'date' params
-    const { date } = request.get(['page', 'date'])
+    const { date } = request.get(['date'])
 
     const meetups = await Meetup.query()
       .where(function () {
-        // verify if date was passed
+        // verify if date is
         if (date) {
           const parsedDate = parseISO(date)
           this.whereBetween('date', [
@@ -27,10 +29,12 @@ class SubscriberMeetupController {
           ])
         }
       })
-      .whereNot('user_id', auth.user.id) // logged user
-      .where(function () {
-        this.where('date', '>', new Date()) // just the most recent meetups
+      .whereDoesntHave('subscriptions', builder => {
+        builder.where('user_id', auth.user.id)
       })
+      .whereNot('user_id', auth.user.id) // meetups not created by the logged user
+      .where('date', '>', new Date())
+      .orderBy('date') // just the most recent meetups
       .with('user') // with user the organizer data
       .with('file') // with banner data
       .fetch()
@@ -42,7 +46,7 @@ class SubscriberMeetupController {
    * Display a single meetup with data of the organizer of the event and of
    * the banner file.
    *
-   * GET meetups/:id
+   * GET subscriberMeetups/:id
    */
   async show ({ params }) {
     const meetup = await Meetup.findOrFail(params.id)

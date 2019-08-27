@@ -40,20 +40,13 @@ test('cannot update user data if the user is not authenticated', async ({
 test('cannot update a user with an e-mail already registered', async ({
   client
 }) => {
-  const { name, email, password } = await Factory.model(
-    'App/Models/User'
-  ).make()
-
-  const user = await User.create({
-    name,
-    email,
-    password
-  })
+  const user = await Factory.model('App/Models/User').create()
+  const user2 = await Factory.model('App/Models/User').create()
 
   const response = await client
     .put('users')
     .loginVia(user, 'jwt')
-    .send({ email })
+    .send({ email: user2.email })
     .end()
 
   response.assertStatus(400)
@@ -62,11 +55,7 @@ test('cannot update a user with an e-mail already registered', async ({
 test('cannot update user password if oldPassword is undefined', async ({
   client
 }) => {
-  const { name, email, password } = await Factory.model(
-    'App/Models/User'
-  ).make()
-
-  const user = await User.create({ name, email, password })
+  const user = await Factory.model('App/Models/User').create()
 
   const response = await client
     .put('users')
@@ -77,10 +66,10 @@ test('cannot update user password if oldPassword is undefined', async ({
     })
     .end()
 
-  response.assertStatus(400)
+  response.assertStatus(401)
   response.assertJSONSubset({
     error: {
-      message: 'You need to validate your password in order to update it.'
+      message: 'Please, confirm your old password.'
     }
   })
 })
@@ -115,16 +104,14 @@ test('cannot update user password if oldPassword is wrong', async ({
 test('can update user password if oldPassword is valid and password and password_confirmation matches', async ({
   client
 }) => {
-  const { name, email, password } = await Factory.model(
-    'App/Models/User'
-  ).make()
-
-  const user = await User.create({ name, email, password })
+  const user = await Factory.model('App/Models/User').create()
 
   const response = await client
     .put('users')
     .loginVia(user, 'jwt')
     .send({
+      name: user.name,
+      email: user.email,
       oldPassword: '12345678',
       password: '87654321',
       password_confirmation: '87654321'

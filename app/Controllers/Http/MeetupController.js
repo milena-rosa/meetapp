@@ -36,32 +36,13 @@ class MeetupController {
       })
       .where('user_id', auth.user.id) // logged user
       .where(function () {
-        this.where('date', '>', new Date()) // just the most recent meetups
+        this.where('date', '>', new Date()).orderBy('date') // just the most recent meetups
       })
       .with('user') // with user the organizer data
       .with('file') // with banner data
       .paginate(page, 10)
 
     return meetups
-  }
-
-  /**
-   * Create/save a new meetup.
-   * An user can create meetups with 'title', 'description', 'location', 'date'
-   * and 'time'. All fields are required.
-   *
-   * It is not possible to store meetups with past date/time.
-   *
-   * POST meetups
-   */
-  async store ({ request, response, auth }) {
-    const user = await auth.getUser()
-
-    const meetup = await Meetup.create({
-      ...request.only(['title', 'description', 'location', 'date', 'file_id']),
-      user_id: user.id
-    })
-    return response.created(meetup)
   }
 
   /**
@@ -78,6 +59,36 @@ class MeetupController {
     // await meetup.load('subscriptions')
 
     return meetup
+  }
+
+  /**
+   * Create/save a new meetup.
+   * An user can create meetups with 'title', 'description', 'location', 'date'
+   * and 'time'. All fields are required.
+   *
+   * It is not possible to store meetups with past date/time.
+   *
+   * POST meetups
+   */
+  async store ({ request, response, auth }) {
+    try {
+      const user = await auth.getUser()
+
+      const meetup = await Meetup.create({
+        ...request.only([
+          'title',
+          'description',
+          'location',
+          'date',
+          'file_id'
+        ]),
+        user_id: user.id
+      })
+
+      return response.created(meetup)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   /**

@@ -3,7 +3,6 @@
 const crypto = require('crypto')
 const { isAfter, subDays } = require('date-fns')
 
-// const Mail = use('Mail')
 const User = use('App/Models/User')
 
 class ForgotPasswordController {
@@ -18,22 +17,6 @@ class ForgotPasswordController {
       user.token_created_at = new Date()
 
       await user.save()
-
-      // await Mail.send(
-      //   ['emails.forgot_password', 'emails.forgot_password-text'],
-      //   {
-      //     name: user.name,
-      //     email,
-      //     token: user.token,
-      //     link: `${request.input('redirect_url')}?token=${user.token}`
-      //   },
-      //   message => {
-      //     message
-      //       .to(user.email)
-      //       .from('noreply@meetapp.com', 'MeetApp')
-      //       .subject('Recuperação de senha')
-      //   }
-      // )
     } catch (err) {
       return response.status(err.status).send({
         error: {

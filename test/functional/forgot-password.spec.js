@@ -36,40 +36,15 @@ test('cannot create a token without an e-mail', async ({ client }) => {
   Mail.restore()
 })
 
-test('cannot create a token without a redirect_url', async ({ client }) => {
+test('can create a token', async ({ client }) => {
   Mail.fake()
-  const user = Factory.model('App/Models/User').create()
+
+  const user = await Factory.model('App/Models/User').create()
 
   const response = await client
     .post('passwords')
     .send({
       email: user.email
-    })
-    .end()
-
-  response.assertStatus(400)
-  response.assertJSONSubset([
-    {
-      message: 'The redirect_url is required.',
-      field: 'redirect_url',
-      validation: 'required'
-    }
-  ])
-
-  Mail.restore()
-})
-
-test('can create a token', async ({ client }) => {
-  Mail.fake()
-
-  const user = await Factory.model('App/Models/User').create()
-  const redirectUrl = 'http://www.meetapp.com.br/reset_password'
-
-  const response = await client
-    .post('passwords')
-    .send({
-      email: user.email,
-      redirect_url: redirectUrl
     })
     .end()
 

@@ -17,6 +17,18 @@ class UserController {
     try {
       const data = request.all()
       const user = await User.findOrFail(auth.user.id)
+      let updatedData = {
+        name: data.name || user.name,
+        avatar_id: data.avatar_id || user.avatar_id
+      }
+
+      if (data.oldPassword === undefined && data.password !== undefined) {
+        return response.status(401).send({
+          error: {
+            message: 'Please, confirm your old password.'
+          }
+        })
+      }
 
       if (data.oldPassword !== undefined && data.password !== undefined) {
         const isSame = await Hash.verify(data.oldPassword, user.password)
@@ -27,7 +39,6 @@ class UserController {
             }
           })
         }
-
         if (data.password !== data.password_confirmation) {
           return response.status(401).send({
             error: {
@@ -35,9 +46,14 @@ class UserController {
             }
           })
         }
+
+        updatedData = {
+          ...updatedData,
+          password: data.password
+        }
       }
 
-      if (data.email !== user.email) {
+      if (data.email !== undefined && data.email !== user.email) {
         const emailTaken = await User.findBy('email', data.email)
         if (emailTaken) {
           return response.status(400).send({
@@ -46,17 +62,17 @@ class UserController {
             }
           })
         }
+
+        updatedData = {
+          ...updatedData,
+          email: data.email
+        }
       }
 
-      await user.merge({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        avatar_id: data.avatar_id
-      })
+      await user.merge(updatedData)
       await user.save()
-
       await user.load('avatar')
+
       return user
     } catch (err) {
       return response.status(400).send({

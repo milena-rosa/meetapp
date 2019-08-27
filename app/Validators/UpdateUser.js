@@ -10,7 +10,7 @@ class UserUpdate {
   get rules () {
     return {
       name: 'min:3',
-      email: 'email|unique:users',
+      email: 'email',
       password: 'min:8|required_if:oldPassword|confirmed'
     }
   }

@@ -17,6 +17,7 @@ class ExceptionHandler extends BaseExceptionHandler {
    */
   async handle (error, { request, response }) {
     if (error.name === 'ValidationException') {
+      console.error('erro api', error.messages)
       return response.status(error.status).send(error.messages)
     }
 

@@ -53,7 +53,6 @@ test('can list subscriptions', async ({ client }) => {
       {
         name: user.name,
         email: user.email,
-        password: user.password,
         subscriptions: [
           {
             user_id: user.id,

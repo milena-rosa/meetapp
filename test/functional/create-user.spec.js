@@ -42,10 +42,7 @@ test('cannot create an user without name, e-mail or password', async ({
   assert.isNull(user)
 })
 
-test('cannot create an e-mail already registered', async ({
-  client,
-  assert
-}) => {
+test('cannot create an e-mail already registered', async ({ client }) => {
   const { name, email, password } = await Factory.model(
     'App/Models/User'
   ).make()
