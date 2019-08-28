@@ -11,7 +11,8 @@ class Avatar extends Model {
   }
 
   getUrl ({ id }) {
-    return `${Env.get('APP_URL')}/avatars/${id}`
+    return `http://134.209.58.97/avatars/${id}`
+    // return `${Env.get('APP_URL')}/avatars/${id}`
   }
 
   static get visible () {

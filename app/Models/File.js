@@ -12,7 +12,8 @@ class File extends Model {
   }
 
   getUrl ({ id }) {
-    return `${Env.get('APP_URL')}/files/${id}`
+    return `http://134.209.58.97/files/${id}`
+    // return `${Env.get('APP_URL')}/files/${id}`
   }
 
   static get visible () {
