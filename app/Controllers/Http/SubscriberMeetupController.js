@@ -2,9 +2,7 @@
 
 const { parseISO, startOfDay, endOfDay } = require('date-fns')
 
-const Database = use('Database')
 const Meetup = use('App/Models/Meetup')
-const Subscription = use('App/Models/Subscription')
 
 class SubscriberMeetupController {
   /**
