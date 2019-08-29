@@ -61,26 +61,26 @@ The route **/subscriptions** lists the meetups that the logged user has subscrib
 
 ## CRUD Routes
 
-| Route                    | Verb(s) | Handler                          | Middleware              | Name                     |
-|--------------------------|---------|----------------------------------|-------------------------|--------------------------|
-| /users                   | POST    | UserController.store             | av:CreateUser           | /users                   |
-| /sessions                | POST    | SessionController.store          | av:Session              | /sessions                |
-| /passwords               | POST    | ForgotPasswordController.store   | av:ForgotPassword       | /passwords               |
-| /passwords               | PUT     | ForgotPasswordController.update  | av:ResetPassword        | /passwords               |
-| /files/:id               | GET     | FileController.show              |                         | /files/:id               |
-| /avatars/:id             | GET     | AvatarController.show            |                         | /avatars/:id             |
-| /users                   | PUT     | UserController.update            | auth,av:UpdateUser      | /users                   |
-| /files                   | POST    | FileController.store             | auth,av:CreateImageFile | /files                   |
-| /avatars                 | POST    | AvatarController.store           | auth,av:CreateImageFile | /avatars                 |
-| /meetups                 | GET     | MeetupController.index           | auth                    | meetups.index            |
-| /meetups                 | POST    | MeetupController.store           | auth,av:CreateMeetup    | meetups.store            |
-| /meetups/:id             | GET     | MeetupController.show            | auth                    | meetups.show             |
-| /meetups/:id             | PUT     | MeetupController.update          | auth                    | meetups.update           |
-| /meetups/:id             | DELETE  | MeetupController.destroy         | auth                    | meetups.destroy          |
-| /subscriberMeetups       | GET     | SubscriberMeetupController.index | auth                    | /subscriberMeetups       |
-| /subscriptions/:idMeetup | POST    | SubscriptionController.store     | auth                    | /subscriptions/:idMeetup |
-| /subscriptions           | GET     | SubscriptionController.index     | auth                    | /subscriptions           |
-| /subscriptions/:id       | DELETE  | SubscriptionController.destroy   | auth                    | /subscriptions/:id       |
+| Route                    | Verb(s) | Handler                          | Middleware              |
+|--------------------------|---------|----------------------------------|-------------------------|
+| /users                   | POST    | UserController.store             | av:CreateUser           |
+| /sessions                | POST    | SessionController.store          | av:Session              |
+| /passwords               | POST    | ForgotPasswordController.store   | av:ForgotPassword       |
+| /passwords               | PUT     | ForgotPasswordController.update  | av:ResetPassword        |
+| /files/:id               | GET     | FileController.show              |                         |
+| /avatars/:id             | GET     | AvatarController.show            |                         |
+| /users                   | PUT     | UserController.update            | auth,av:UpdateUser      |
+| /files                   | POST    | FileController.store             | auth,av:CreateImageFile |
+| /avatars                 | POST    | AvatarController.store           | auth,av:CreateImageFile |
+| /meetups                 | GET     | MeetupController.index           | auth                    |
+| /meetups                 | POST    | MeetupController.store           | auth,av:CreateMeetup    |
+| /meetups/:id             | GET     | MeetupController.show            | auth                    |
+| /meetups/:id             | PUT     | MeetupController.update          | auth                    |
+| /meetups/:id             | DELETE  | MeetupController.destroy         | auth                    |
+| /subscriberMeetups       | GET     | SubscriberMeetupController.index | auth                    |
+| /subscriptions/:idMeetup | POST    | SubscriptionController.store     | auth                    |
+| /subscriptions           | GET     | SubscriptionController.index     | auth                    |
+| /subscriptions/:id       | DELETE  | SubscriptionController.destroy   | auth                    |
 
 
 ## Setup
