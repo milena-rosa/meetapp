@@ -1,6 +1,6 @@
 # MeetApp API
 
-This is the API server created in AdonisJs. MeetApp is an event aggregator app for developers (an acronym for Meetup + App).
+This is an API server created in AdonisJs. MeetApp is an event aggregator app for developers (an acronym for Meetup + App).
 
 
 ## Features
